@@ -12,45 +12,39 @@ export const GlassEffect: React.FC<GlassEffectProps> = ({
   children,
   className = "",
   style = {},
-}) => {
-  const glassStyle = {
-    boxShadow: "0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1)",
-    transitionTimingFunction: "cubic-bezier(0.175, 0.885, 0.32, 2.2)",
-    ...style,
-  };
-
-  return (
+}) => (
+  <div
+    className={`relative overflow-hidden ${className}`}
+    style={{
+      background: "rgba(255, 255, 255, 0.06)",
+      backdropFilter: "blur(16px) saturate(1.4)",
+      WebkitBackdropFilter: "blur(16px) saturate(1.4)",
+      border: "1px solid rgba(255, 255, 255, 0.12)",
+      boxShadow:
+        "0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(255, 255, 255, 0.05)",
+      ...style,
+    }}
+  >
+    {/* Specular highlight — top edge gleam */}
     <div
-      className={`relative flex overflow-hidden transition-all duration-700 ${className}`}
-      style={glassStyle}
-    >
-      {/* Glass distortion layer */}
-      <div
-        className="absolute inset-0 z-0 overflow-hidden rounded-inherit rounded-2xl"
-        style={{
-          backdropFilter: "blur(12px)",
-          filter: "url(#glass-distortion)",
-          isolation: "isolate",
-        }}
-      />
-      {/* Tint layer */}
-      <div
-        className="absolute inset-0 z-10 rounded-inherit rounded-2xl"
-        style={{ background: "rgba(255, 255, 255, 0.08)" }}
-      />
-      {/* Inner highlight */}
-      <div
-        className="absolute inset-0 z-20 rounded-inherit rounded-2xl overflow-hidden"
-        style={{
-          boxShadow:
-            "inset 1px 1px 1px 0 rgba(255, 255, 255, 0.15), inset -1px -1px 1px 0 rgba(255, 255, 255, 0.05)",
-        }}
-      />
-      {/* Content */}
-      <div className="relative z-30 w-full">{children}</div>
-    </div>
-  );
-};
+      className="absolute inset-x-0 top-0 h-px z-10"
+      style={{
+        background:
+          "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 30%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.2) 70%, transparent 100%)",
+      }}
+    />
+    {/* Subtle inner gradient for depth */}
+    <div
+      className="absolute inset-0 z-0 pointer-events-none"
+      style={{
+        background:
+          "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.1) 100%)",
+      }}
+    />
+    {/* Content */}
+    <div className="relative z-20">{children}</div>
+  </div>
+);
 
 export const GlassFilter: React.FC = () => (
   <svg style={{ display: "none" }}>

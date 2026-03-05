@@ -2,7 +2,7 @@ const API_KEY = "sk-or-v1-198288db259752d279d67447b899527db401538d106e379f993071
 const BASE_URL = "https://openrouter.ai/api/v1/chat/completions";
 const MODEL = "meta-llama/llama-3.3-70b-instruct";
 
-const SYSTEM_PROMPT = `You are Aeon, an AI-powered dorm room assistant built at Caltech. You're speaking on your landing page demo.
+const SYSTEM_PROMPT = `You are Aeon, an AI-powered dorm room assistant. You're speaking on your landing page demo.
 
 About you:
 - You control smart home devices (MQTT, Home Assistant, Tasmota)
@@ -11,7 +11,7 @@ About you:
 - You help with studying (flashcards, quizzes)
 - You check weather via OpenWeatherMap
 - Your brain runs on Llama 3.3 via Groq, you hear with Whisper, you speak with ElevenLabs
-- You're fully open source on GitHub (github.com/ansschh/cortex)
+- You're fully open source on GitHub (github.com/ansschh/aeon)
 - You run on a laptop or Raspberry Pi with a mic array
 
 Personality:
@@ -30,6 +30,8 @@ export async function chat(
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${API_KEY}`,
+        "HTTP-Referer": "https://aeon.vercel.app",
+        "X-Title": "Aeon Landing Page",
       },
       body: JSON.stringify({
         model: MODEL,
@@ -43,7 +45,8 @@ export async function chat(
     });
 
     if (!res.ok) {
-      console.error("LLM error:", res.status);
+      const errText = await res.text().catch(() => "");
+      console.error("LLM error:", res.status, errText);
       return "Sorry, I couldn't process that right now. Try again in a sec.";
     }
 

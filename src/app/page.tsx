@@ -302,18 +302,27 @@ export default function Home() {
         {/* Compact chat */}
         <div className="w-full max-w-md px-4 mt-6">
           {chatOpen && messages.length > 0 && !expanded && (
-            <div className="mb-3 max-h-48 overflow-y-auto space-y-2 chat-scroll">
+            <div className="mb-3 max-h-48 overflow-y-auto space-y-3 chat-scroll">
               {messages.map((m, i) => (
                 <div
                   key={i}
-                  className={`message-enter text-sm px-3 py-2 rounded-xl max-w-[85%] ${
-                    m.role === "user"
-                      ? "ml-auto bg-sky-500/15 text-sky-100"
-                      : "mr-auto bg-slate-800/50 text-slate-200"
-                  }`}
-                  style={{ fontWeight: 300, animationDelay: `${i * 0.05}s` }}
+                  className={`message-enter flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
+                  style={{ animationDelay: `${i * 0.05}s` }}
                 >
-                  {m.text}
+                  {m.role === "assistant" ? (
+                    <GlassEffect className="rounded-2xl max-w-[85%]">
+                      <div className="px-3 py-2 text-sm text-slate-100" style={{ fontWeight: 300 }}>
+                        {m.text}
+                      </div>
+                    </GlassEffect>
+                  ) : (
+                    <div
+                      className="px-3 py-2 text-sm rounded-2xl max-w-[85%] bg-sky-500/15 text-sky-100 border border-sky-400/10"
+                      style={{ fontWeight: 300 }}
+                    >
+                      {m.text}
+                    </div>
+                  )}
                 </div>
               ))}
               <div ref={!expanded ? messagesEndRef : undefined} />
@@ -429,15 +438,6 @@ export default function Home() {
         <span className="hidden sm:inline" style={{ fontWeight: 300 }}>GitHub</span>
       </a>
 
-      <p
-        className="netflix-transition fixed bottom-6 left-1/2 -translate-x-1/2 z-30 text-[11px] text-slate-600 tracking-wide"
-        style={{
-          fontWeight: 300,
-          opacity: expanded ? 0 : 1,
-        }}
-      >
-        Built at Caltech
-      </p>
     </main>
   );
 }
