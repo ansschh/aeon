@@ -376,7 +376,7 @@ export default function Home() {
           </h2>
 
           <a
-            href="https://github.com/ansschh/aeon"
+            href="https://github.com/ansschh/cortex"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-500 hover:text-slate-300 transition-colors"
@@ -441,7 +441,7 @@ export default function Home() {
 
       {/* GitHub + credit (only in landing mode) */}
       <a
-        href="https://github.com/ansschh/aeon"
+        href="https://github.com/ansschh/cortex"
         target="_blank"
         rel="noopener noreferrer"
         className="netflix-transition fixed bottom-6 right-6 z-30 flex items-center gap-2 text-sm text-slate-500 hover:text-slate-300 transition-colors"
