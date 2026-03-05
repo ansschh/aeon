@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "AEON — The Room That Thinks",
   description:
     "An AI-powered dorm room assistant that sees, hears, and responds.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

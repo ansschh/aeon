@@ -20,6 +20,7 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [chatOpen, setChatOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [manualCollapse, setManualCollapse] = useState(false);
   const [listening, setListening] = useState(false);
   const [speaking, setSpeaking] = useState(false);
   const [thinking, setThinking] = useState(false);
@@ -36,12 +37,12 @@ export default function Home() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Auto-expand when chat gets long
+  // Auto-expand when chat gets long (unless user manually collapsed)
   useEffect(() => {
-    if (messages.length >= EXPAND_THRESHOLD && !expanded) {
+    if (messages.length >= EXPAND_THRESHOLD && !expanded && !manualCollapse) {
       setExpanded(true);
     }
-  }, [messages, expanded]);
+  }, [messages, expanded, manualCollapse]);
 
   /* ── Audio-reactive loop ─────────────────────────────────────── */
 
@@ -187,6 +188,7 @@ export default function Home() {
 
   const collapseChat = useCallback(() => {
     setExpanded(false);
+    setManualCollapse(true);
   }, []);
 
   /* ── Input bar (shared between both modes) ───────────────────── */
@@ -264,6 +266,7 @@ export default function Home() {
           <ShaderAnimation
             speed={0.05}
             intensity={intensity}
+            expanded={expanded}
             className="w-full h-full absolute inset-0"
           />
         </div>
