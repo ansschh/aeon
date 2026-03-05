@@ -164,6 +164,10 @@ export function ShaderAnimation({
     onResize();
     window.addEventListener("resize", onResize);
 
+    // ResizeObserver to handle CSS transitions changing container size
+    const resizeObserver = new ResizeObserver(() => onResize());
+    resizeObserver.observe(container);
+
     const animate = () => {
       sceneRef.current.animationId = requestAnimationFrame(animate);
       uniforms.time.value += speed;

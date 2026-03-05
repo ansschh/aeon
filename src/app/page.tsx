@@ -243,30 +243,43 @@ export default function Home() {
       <GlassFilter />
       <Starfield />
 
-      {/* ═══ AURORA SPHERE ═══ */}
-      {/* In expanded mode: becomes a full-screen background */}
+      {/* ═══ AURORA — always full-screen, sphere mask handled by shader ═══ */}
       <div
-        className="netflix-transition-slow absolute z-[1] flex items-center justify-center"
+        className="absolute inset-0 z-[1] netflix-transition-slow"
         style={{
-          top: expanded ? "0" : "50%",
-          left: expanded ? "0" : "50%",
-          width: expanded ? "100vw" : "420px",
-          height: expanded ? "100vh" : "420px",
-          transform: expanded ? "none" : "translate(-50%, calc(-50% - 80px))",
-          opacity: expanded ? 0.4 : 1,
+          opacity: expanded ? 0.35 : 1,
         }}
       >
-        <ShaderAnimation
-          speed={0.05}
-          intensity={intensity}
-          className="w-full h-full absolute inset-0"
-        />
+        {/* Centered sphere wrapper — scales to fill when expanded */}
         <div
-          className="absolute inset-0 rounded-full bg-sky-400/5 blur-3xl pointer-events-none"
+          className="absolute netflix-transition-slow"
           style={{
-            transform: `scale(${expanded ? 1 : 1.15 + (intensity - 1) * 0.2})`,
-            transition: "transform 0.15s ease-out",
-            borderRadius: expanded ? "0" : "",
+            top: expanded ? "-25vh" : "50%",
+            left: expanded ? "-25vw" : "50%",
+            width: expanded ? "150vw" : "420px",
+            height: expanded ? "150vh" : "420px",
+            transform: expanded ? "none" : "translate(-50%, calc(-50% - 80px))",
+          }}
+        >
+          <ShaderAnimation
+            speed={0.05}
+            intensity={intensity}
+            className="w-full h-full absolute inset-0"
+          />
+        </div>
+        {/* Glow */}
+        <div
+          className="absolute pointer-events-none netflix-transition-slow"
+          style={{
+            top: "50%",
+            left: "50%",
+            width: expanded ? "100vw" : "500px",
+            height: expanded ? "100vh" : "500px",
+            transform: expanded
+              ? "translate(-50%, -50%)"
+              : `translate(-50%, calc(-50% - 80px)) scale(${1.15 + (intensity - 1) * 0.2})`,
+            background: "radial-gradient(circle, rgba(56,189,248,0.06) 0%, transparent 70%)",
+            borderRadius: expanded ? "0" : "50%",
           }}
         />
       </div>
